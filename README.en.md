@@ -247,7 +247,7 @@ Edit component styles in `src/styles.css` under `@layer components`. Override Ta
 - Each generation is independent and **will not modify existing projects**
 - The AI concierge endpoint is an **integration stub** returning mock responses by default
 - The generated `NEWAY_BRIEF.md` explicitly states what is scaffold-ready and what needs further implementation
-- All user-facing strings are **English only** — no hardcoded Chinese
+- Follows Convention 0 locale detection: `zh-*` system → Chinese UI, otherwise English UI
 
 ---
 
