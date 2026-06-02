@@ -6,6 +6,20 @@
 
 ---
 
+## 🎁 入门 Demo：时尚轻奢电商
+
+想最快了解本 Skill 能做什么？对 Bot 说一句就够：
+
+> **「帮我生成一个时尚轻奢电商网站」**
+
+Bot 会使用 `templates/base/static/images/` 内置的 16 张样例图，1:1 复原对标 `project/fashion-store` 品质的完整电商站——LUMIÈRE 时尚轻奢品牌，包含 Hero 轮播、分类导航、商品详情、购物车、三步结算、AI 导购等全部功能，中文/英文按系统语言自适应。
+
+📂 Demo 参考输出：`D:\claw\workspace\workbuddy\work\project\lumiere`
+
+> ⚠️ `static/images/` 为 Skill 入门演示用途，生产项目请替换为你自己的商品图片。
+
+---
+
 ## 📖 概述
 
 Neway Commerce OS 是一个可复用的电商操作系统 Skill，专为以下场景设计：

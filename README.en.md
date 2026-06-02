@@ -6,6 +6,20 @@
 
 ---
 
+## 🎁 Quick Demo: Fashion Luxury E-Commerce
+
+The fastest way to see what this Skill can do — just say:
+
+> **"Generate a fashion luxury e-commerce site"**
+
+The Bot uses 16 built-in sample images from `templates/base/static/images/` to produce a 1:1 replica matching the quality of `project/fashion-store` — a complete LUMIÈRE luxury fashion brand site, with Hero carousel, category navigation, product details, cart, 3-step checkout, AI concierge, and full functionality. Locale-aware: Chinese or English UI, auto-detected.
+
+📂 Demo output reference: `D:\claw\workspace\workbuddy\work\project\lumiere`
+
+> ⚠️ `static/images/` is for demo/onboarding purposes only. Replace with your own product images for production use.
+
+---
+
 ## 📖 Overview
 
 Neway Commerce OS is a reusable commerce operating system Skill designed for:
