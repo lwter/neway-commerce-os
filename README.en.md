@@ -1,7 +1,7 @@
 # Neway Commerce OS
 
 > A WorkBuddy AI Skill that generates a full-stack commerce website skeleton from a short **product idea description**.
->
+
 > Recommended to generate via WorkBuddy Bot. Other bots (Cursor, Claude, GPT) can also do a great job with the same effect.
 
 ---
@@ -12,10 +12,11 @@ Neway Commerce OS is a reusable commerce operating system Skill designed for:
 
 - **Digital products** (UI Kits, templates, courses, software licenses)
 - **Creator storefronts** (one-person creator shops)
+- **Physical product stores** (clothing, accessories — with size/color/material support)
 - **Multi-product studios** (NewayStudio-style product matrix)
 - **AI-assisted sales** (built-in AI shopping concierge)
 
-**Core idea**: Input a one-line product idea → Output a fully runnable React + Vite + Hono full-stack website with storefront, cart, checkout, admin dashboard, AI concierge, and EdgeOne Pages deployment configuration.
+**Core idea**: Input a one-line product idea → Output a fully runnable React + Vite + Hono full-stack website with storefront, cart, checkout, wishlist, admin dashboard, AI concierge, and EdgeOne Pages deployment configuration.
 
 ---
 
@@ -34,11 +35,11 @@ Neway Commerce OS is a reusable commerce operating system Skill designed for:
 Just tell the AI what you want, for example:
 
 > 🎯 **"Create a trendy fashion ecommerce site selling branded hoodies"**
->
+
 > 🎯 **"Build a digital product store for my AI prompt template packs"**
->
+
 > 🎯 **"Make me a creator subscription site with monthly membership and AI concierge"**
->
+
 > 🎯 **"Generate a multi-product studio website selling courses + design assets + SaaS subscriptions"**
 
 The Bot will analyze your request and complete the full generation flow. **One sentence is all it takes.**
@@ -51,59 +52,81 @@ The Bot will analyze your request and complete the full generation flow. **One s
 
 ```
 site-name/
-├── src/
-│   ├── components/
-│   │   └── AiConcierge.tsx    # AI shopping concierge component
-│   ├── pages/
-│   │   ├── HomePage.tsx       # Homepage / product showcase
-│   │   ├── CartPage.tsx       # Shopping cart page
-│   │   ├── CheckoutPage.tsx   # Checkout page
-│   │   ├── AccountPage.tsx    # User account page
-│   │   └── AdminPage.tsx      # Admin dashboard page
-│   ├── lib/
-│   │   └── api.ts             # API request wrapper
-│   ├── store/
-│   │   └── cartStore.ts       # Cart state (Zustand)
-│   ├── data/
-│   │   └── products.json      # Default product data
-│   ├── App.tsx                # Routes & layout
-│   ├── main.tsx               # Entry point
-│   └── styles.css             # Global styles
-├── functions/
-│   ├── api/
-│   │   ├── products.ts        # Product list API
-│   │   ├── checkout.ts        # Checkout API
-│   │   └── assistant.ts       # AI concierge API
-│   └── node/
-│       └── stripe-webhook.ts  # Stripe Webhook handler
-├── index.html
-├── package.json
-├── tsconfig.json
+├── index.html                  ← Google Fonts + lang attribute
+├── package.json                ← all required dependencies included
+├── tailwind.config.js          ← font-body, font-heading, brand colors
+├── postcss.config.js           ← Tailwind + Autoprefixer
 ├── vite.config.ts
-├── edgeone.json               # EdgeOne Pages deploy config
-├── .env.example               # Environment variable template
-└── NEWAY_BRIEF.md             # Generation summary
+├── tsconfig.json
+├── .env.example
+├── .gitignore
+├── edgeone.json               ← EdgeOne Pages deploy config
+├── src/
+│   ├── main.tsx
+│   ├── App.tsx                 ← route definitions (7 routes)
+│   ├── styles.css              ← Tailwind directives + component styles
+│   ├── components/
+│   │   ├── Navbar.tsx         ← site navigation (mobile menu + search)
+│   │   ├── Footer.tsx         ← site footer (4-column + newsletter)
+│   │   ├── ProductCard.tsx    ← product card (grid/list dual mode)
+│   │   ├── CartDrawer.tsx     ← slide-out cart (REQUIRED, not optional)
+│   │   └── AIChatWidget.tsx   ← AI shopping concierge widget
+│   ├── pages/
+│   │   ├── HomePage.tsx       ← Hero + categories + arrivals + bestsellers
+│   │   ├── ShopPage.tsx       ← browse/filter/sort page (REQUIRED)
+│   │   ├── ProductPage.tsx    ← /product/:id — MUST exist and be routed
+│   │   ├── CartPage.tsx       ← full-page cart fallback
+│   │   ├── CheckoutPage.tsx   ← 3-step checkout flow
+│   │   ├── WishlistPage.tsx   ← wishlist page
+│   │   └── AdminPage.tsx      ← admin dashboard page
+│   ├── data/
+│   │   └── products.ts         ← typed product records (TypeScript)
+│   ├── store/
+│   │   └── cartStore.ts       ← Zustand + persist middleware
+│   └── types/
+│       └── index.ts            ← Product, Category, CartItem interfaces
+└── functions/
+    ├── api/
+    │   ├── products.ts
+    │   ├── checkout.ts
+    │   └── assistant.ts
+    └── node/
+        └── stripe-webhook.ts
 ```
+
+### Route table (all 7 routes MUST be present)
+
+| Path             | Page             | Notes                        |
+|------------------|------------------|------------------------------|
+| `/`            | HomePage         | Landing page                  |
+| `/shop`          | ShopPage         | Product browsing             |
+| `/product/:id`   | ProductPage      | Product detail               |
+| `/wishlist`      | WishlistPage     | Saved items                  |
+| `/cart`          | CartPage         | Full-page cart               |
+| `/checkout`      | CheckoutPage     | 3-step checkout             |
+| `/admin`         | AdminPage        | Admin dashboard              |
 
 ---
 
 ## 🧱 Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | React 18 + TypeScript + Vite + Framer Motion |
-| **State Management** | Zustand |
-| **Routing** | React Router v6 |
-| **API** | Hono Edge Functions / Node Functions |
-| **Payment** | Stripe (Mock mode + Production mode) |
-| **AI Concierge** | Custom API endpoint with AI integration stub |
-| **Deployment** | EdgeOne Pages |
+| Layer            | Technology                                     |
+|-----------------|-------------------------------------------------|
+| **Frontend**     | React 18 + TypeScript 5 + Vite 5 + Tailwind CSS 3 |
+| **Animations**   | Framer Motion                                  |
+| **Icons**        | Lucide React (emojis strictly forbidden)       |
+| **State**        | Zustand + `persist` middleware                |
+| **Routing**      | React Router v6                                |
+| **API**          | Hono Edge Functions / Node Functions            |
+| **Payment**      | Stripe (Mock mode + Production mode)            |
+| **AI Concierge** | Custom API endpoint with AI integration stub    |
+| **Deployment**   | EdgeOne Pages                                  |
 
 ---
 
 ## 🎮 Playground Examples
 
-### Play 1: Trendy Fashion Store 🧢
+### Play 1: Trendy Fashion Store 🧥
 
 > "Generate a stylish fashion ecommerce site targeting young streetwear brands, with new arrivals, exclusive collab zone, limited-time countdown deals, dark edgy color scheme, and AI stylist recommendations"
 
@@ -195,7 +218,7 @@ Simply add files under `src/pages/` and register routes in `App.tsx`.
 
 ### Customize styling
 
-Edit `src/styles.css` or adopt CSS-in-JS / Tailwind.
+Edit component styles in `src/styles.css` under `@layer components`. Override Tailwind theme in `tailwind.config.js` → `brand` colors and `fontFamily`.
 
 ---
 
@@ -224,6 +247,7 @@ Edit `src/styles.css` or adopt CSS-in-JS / Tailwind.
 - Each generation is independent and **will not modify existing projects**
 - The AI concierge endpoint is an **integration stub** returning mock responses by default
 - The generated `NEWAY_BRIEF.md` explicitly states what is scaffold-ready and what needs further implementation
+- All user-facing strings are **English only** — no hardcoded Chinese
 
 ---
 
